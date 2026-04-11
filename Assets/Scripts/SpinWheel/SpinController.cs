@@ -1,11 +1,12 @@
-﻿using System;
+﻿using RUS95.SpinWinEventApp.Core;
+using RUS95.SpinWinEventApp.Data;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using RUS95.SpinWinEventApp.Data;
 
 namespace RUS95.SpinWinEventApp.Systems.Spin
 {
-    public class SpinController : MonoBehaviour
+    public class SpinController : MonoBehaviour , ISpinInputReceiver
     {
         #region Fields
 
@@ -29,6 +30,8 @@ namespace RUS95.SpinWinEventApp.Systems.Spin
 
         [SerializeField] private List<SpinSegmentData> _segmentConfigs;
         [SerializeField] private float _angleOffset = 90f;
+
+        private bool _canSpin = true;
 
         #endregion
 
@@ -107,6 +110,21 @@ namespace RUS95.SpinWinEventApp.Systems.Spin
             _isSpinning = true;
 
             OnSpinStarted?.Invoke();
+        }
+
+        public void OnSpinRequested()
+        {
+            if (!_canSpin) return;
+
+            StartSpin(); // your existing logic
+        }
+
+        public void OnSpinDrag(float delta)
+        {
+            if (!_canSpin) return;
+
+            // Optional: allow manual rotation before spin
+            transform.Rotate(0f, 0f, -delta);
         }
 
         #endregion
