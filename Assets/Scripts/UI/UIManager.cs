@@ -1,7 +1,8 @@
-using UnityEngine;
+using System;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 using RUS95.SpinWinEventApp.Data;
-using RUS95.SpinWinEventApp.Systems.Spin;
 
 namespace RUS95.SpinWinEventApp.UI
 {
@@ -9,49 +10,207 @@ namespace RUS95.SpinWinEventApp.UI
     {
         #region Fields
 
-        [SerializeField] private SpinController _spinController;
-        [SerializeField] private GameObject _resultPanel;
-        [SerializeField] private TextMeshProUGUI _resultText;
+        [Header("Screens")]
+        [SerializeField] private GameObject _idleScreen;
+        [SerializeField] private GameObject _resultScreen;
+        [SerializeField] private GameObject _formScreen;
+        [SerializeField] private GameObject _thankYouScreen;
+
+        #region Idle
+
+        [Header("Idle Screen")]
+        [SerializeField] private Button _spinButton;
+        [SerializeField] private TextMeshProUGUI _spinButtonText;
+
+        #endregion
+
+        #region Result
+
+        [Header("Result Screen")]
+        [SerializeField] private Image _resultImage;
+        [SerializeField] private TextMeshProUGUI _resultTitle;
+        [SerializeField] private TextMeshProUGUI _resultSubText;
+        [SerializeField] private Button _continueButton;
+
+        [Header("Result Config")]
+        [SerializeField] private Sprite _winSprite;
+        [SerializeField] private Sprite _loseSprite;
+        [SerializeField] private string _winTitle = "YOU WIN!";
+        [SerializeField] private string _loseTitle = "TRY AGAIN";
+        [SerializeField] private string _winSub = "Congratulations!";
+        [SerializeField] private string _loseSub = "Better luck next time";
+
+        #endregion
+
+        #region Form
+
+        [Header("Form Screen")]
+        [SerializeField] private TMP_InputField _nameInput;
+        [SerializeField] private TMP_InputField _emailInput;
+        [SerializeField] private TMP_InputField _phoneInput;
+        [SerializeField] private GameObject _winOnlyObject;
+
+        [SerializeField] private Button _submitButton;
+        [SerializeField] private TextMeshProUGUI _submitButtonText;
+        [SerializeField] private Button _skipButton;
+
+        [Header("Button Colors")]
+        [SerializeField] private Image _submitButtonImage;
+        [SerializeField] private Color _activeColor;
+        [SerializeField] private Color _inactiveColor;
+
+        #endregion
+
+        #region Thank You
+
+        [Header("Thank You Screen")]
+        [SerializeField] private TextMeshProUGUI _countdownText;
+
+        #endregion
+
+        #endregion
+
+        #region Events
+
+        public event Action OnSpinClicked;
+        public event Action OnContinueClicked;
+        public event Action<string, string> OnFormChanged;
+        public event Action<string, string, string> OnSubmitClicked;
+        public event Action OnSkipClicked;
 
         #endregion
 
         #region Unity Callbacks
 
-        private void OnEnable()
+        private void Awake()
         {
-            _spinController.OnSpinCompleted += HandleSpinCompleted;
-        }
-
-        private void OnDisable()
-        {
-            _spinController.OnSpinCompleted -= HandleSpinCompleted;
+            BindUI();
         }
 
         #endregion
 
-        #region Event Handlers
+        #region Initialization
 
-        private void HandleSpinCompleted(SpinResult result)
+        private void BindUI()
         {
-            //ShowResult(result);
+            _spinButton.onClick.AddListener(() => OnSpinClicked?.Invoke());
+            _continueButton.onClick.AddListener(() => OnContinueClicked?.Invoke());
+            _submitButton.onClick.AddListener(HandleSubmitClicked);
+            _skipButton.onClick.AddListener(() => OnSkipClicked?.Invoke());
+
+            _nameInput.onValueChanged.AddListener(_ => NotifyFormChanged());
+            _emailInput.onValueChanged.AddListener(_ => NotifyFormChanged());
         }
 
         #endregion
 
-        #region Private Methods
+        #region Screen Control
 
-        private void ShowResult(SpinResult result)
+        public void ShowIdleScreen()
         {
-            _resultPanel.SetActive(true);
+            HideAll();
+            _idleScreen.SetActive(true);
+        }
 
-            if (result.Segment.IsWin())
+        public void ShowResultScreen(GameSessionData data)
+        {
+            HideAll();
+            _resultScreen.SetActive(true);
+
+            if (data.IsWin)
             {
-                _resultText.text = "YOU WIN!";
+                _resultImage.sprite = _winSprite;
+                _resultTitle.text = _winTitle;
+                _resultSubText.text = _winSub;
             }
             else
             {
-                _resultText.text = "TRY AGAIN";
+                _resultImage.sprite = _loseSprite;
+                _resultTitle.text = _loseTitle;
+                _resultSubText.text = _loseSub;
             }
+        }
+
+        public void ShowFormScreen(GameSessionData data)
+        {
+            HideAll();
+            _formScreen.SetActive(true);
+
+            ResetForm();
+            SetSubmitButtonState(false);
+
+            SetSubmitButtonState(false, "Enter Draw");
+            _winOnlyObject?.SetActive(data.IsWin);
+        }
+
+        public void ShowThankYouScreen()
+        {
+            HideAll();
+            _thankYouScreen.SetActive(true);
+        }
+
+        private void HideAll()
+        {
+            _idleScreen.SetActive(false);
+            _resultScreen.SetActive(false);
+            _formScreen.SetActive(false);
+            _thankYouScreen.SetActive(false);
+        }
+
+        #endregion
+
+        #region Button States
+
+        public void SetSpinButtonState(bool enabled, string text)
+        {
+            _spinButton.interactable = enabled;
+            _spinButtonText.text = text;
+        }
+
+        public void SetSubmitButtonState(bool enabled, string text = null)
+        {
+            _submitButton.interactable = enabled;
+
+            if (!string.IsNullOrEmpty(text))
+                _submitButtonText.text = text;
+
+            _submitButtonImage.color = enabled ? _activeColor : _inactiveColor;
+        }
+
+        #endregion
+
+        #region Form
+
+        private void NotifyFormChanged()
+        {
+            OnFormChanged?.Invoke(_nameInput.text, _emailInput.text);
+        }
+
+        private void HandleSubmitClicked()
+        {
+            SetSubmitButtonState(false, "Submitting...");
+
+            OnSubmitClicked?.Invoke(
+                _nameInput.text,
+                _emailInput.text,
+                _phoneInput.text
+            );
+        }
+
+        private void ResetForm()
+        {
+            _nameInput.text = string.Empty;
+            _emailInput.text = string.Empty;
+            _phoneInput.text = string.Empty;
+        }
+
+        #endregion
+
+        #region Thank You
+
+        public void SetCountdownText(string text)
+        {
+            _countdownText.text = text;
         }
 
         #endregion

@@ -1,6 +1,7 @@
+using UnityEngine;
 using RUS95.SpinWinEventApp.Systems;
 using RUS95.SpinWinEventApp.Systems.Spin;
-using UnityEngine;
+using RUS95.SpinWinEventApp.UI;
 
 namespace RUS95.SpinWinEventApp.Core
 {
@@ -8,8 +9,15 @@ namespace RUS95.SpinWinEventApp.Core
     {
         #region Fields
 
-        [SerializeField] private WheelTapInputHandler _inputHandler;
+        [Header("Core Systems")]
+        [SerializeField] private GameFlowController _gameFlowController;
+
+        [Header("Spin System")]
         [SerializeField] private SpinController _spinController;
+        [SerializeField] private WheelTapInputHandler _inputHandler;
+
+        [Header("UI")]
+        [SerializeField] private UIManager _uiManager;
 
         #endregion
 
@@ -20,13 +28,39 @@ namespace RUS95.SpinWinEventApp.Core
             InitializeSystems();
         }
 
+        private void OnDestroy()
+        {
+            UnbindEvents();
+        }
+
         #endregion
 
-        #region Private Methods
+        #region Initialization
 
         private void InitializeSystems()
         {
+            InitializeSpinSystem();
+            BindUIEvents();
+        }
+
+        private void InitializeSpinSystem()
+        {
+            // Connect tap input ? spin controller
             _inputHandler.Initialize(_spinController);
+        }
+
+        private void BindUIEvents()
+        {
+            // UI button ? spin request
+            _uiManager.OnSpinClicked += _spinController.OnSpinRequested;
+        }
+
+        private void UnbindEvents()
+        {
+            if (_uiManager != null)
+            {
+                _uiManager.OnSpinClicked -= _spinController.OnSpinRequested;
+            }
         }
 
         #endregion
