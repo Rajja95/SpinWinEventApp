@@ -155,6 +155,10 @@ namespace RUS95.SpinWinEventApp.Systems.Spin
             _isSpinning = false;
 
             //SetWheelRotation(_targetAngle);
+            float finalAngle = GetNormalizedAngle(_wheelTransform.localEulerAngles.z);
+
+            SpinSegment finalSegment = GetSegmentFromAngle(finalAngle);
+            _currentResult = new SpinResult(finalSegment);
 
             OnSpinCompleted?.Invoke(_currentResult);
         }
@@ -173,6 +177,20 @@ namespace RUS95.SpinWinEventApp.Systems.Spin
         private float GetNormalizedAngle(float angle)
         {
             return angle % 360f;
+        }
+
+        private SpinSegment GetSegmentFromAngle(float angle)
+        {
+            float normalized = (angle - _angleOffset) % 360f;
+
+            if (normalized < 0)
+                normalized += 360f;
+
+            float anglePerSegment = 360f / _segments.Count;
+
+            int index = Mathf.FloorToInt(normalized / anglePerSegment);
+
+            return _segments[index];
         }
 
         #endregion
