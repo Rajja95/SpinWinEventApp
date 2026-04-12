@@ -33,7 +33,7 @@ namespace RUS95.SpinWinEventApp.UI
 
         private void HandleSpinCompleted(SpinResult result)
         {
-            ShowResult(result);
+            //ShowResult(result);
         }
 
         #endregion
