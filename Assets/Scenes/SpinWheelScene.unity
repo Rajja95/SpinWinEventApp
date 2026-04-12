@@ -843,9 +843,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _segmentConfigs:
-  - SegmentType: 1
-    DisplayText: 
-    RewardValue: 0
   - SegmentType: 0
     DisplayText: 
     RewardValue: 0
@@ -879,7 +876,10 @@ MonoBehaviour:
   - SegmentType: 0
     DisplayText: 
     RewardValue: 0
-  _angleOffset: 75
+  - SegmentType: 1
+    DisplayText: 
+    RewardValue: 0
+  _angleOffset: 0
 --- !u!1 &247495170
 GameObject:
   m_ObjectHideFlags: 0
