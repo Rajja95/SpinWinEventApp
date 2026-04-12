@@ -1,0 +1,3 @@
+D:\Professional\Personal Projects\Fiverr\SpinWinEventApp\SpinWinEventApp\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+D:\Professional\Personal Projects\Fiverr\SpinWinEventApp\SpinWinEventApp\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
+D:\Professional\Personal Projects\Fiverr\SpinWinEventApp\SpinWinEventApp\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

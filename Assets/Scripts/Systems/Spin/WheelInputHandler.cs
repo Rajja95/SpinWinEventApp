@@ -1,5 +1,6 @@
-using UnityEngine;
 using RUS95.SpinWinEventApp.Core;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace RUS95.SpinWinEventApp.Systems
 {
@@ -27,10 +28,37 @@ namespace RUS95.SpinWinEventApp.Systems
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (IsTapStarted(out Vector2 position))
             {
-                HandleTap(Input.mousePosition);
+                HandleTap(position);
             }
+        }
+
+        #endregion
+
+        #region Input Handling
+
+        private bool IsTapStarted(out Vector2 position)
+        {
+            position = default;
+
+            // Touch (Android)
+            if (Touchscreen.current != null &&
+                Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+            {
+                position = Touchscreen.current.primaryTouch.position.ReadValue();
+                return true;
+            }
+
+            // Mouse (Editor testing)
+            if (Mouse.current != null &&
+                Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                position = Mouse.current.position.ReadValue();
+                return true;
+            }
+
+            return false;
         }
 
         #endregion

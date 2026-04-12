@@ -1,0 +1,12 @@
+# ninja log v5
+93	705	7977059929501236	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	ef17f1c638f09d58
+706	941	7977059931919409	D:/Professional/Personal Projects/Fiverr/SpinWinEventApp/SpinWinEventApp/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/716r1q6q/obj/armeabi-v7a/libswappywrapper.so	64db0fc66650ea8f
+45	2510	7977059947504718	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	8488b61572447219
+57	2529	7977059947711024	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	5b66e77d5f9e8ac8
+24	2569	7977059948131538	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	4ad8aab2ca91c4e3
+69	2591	7977059948343278	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	83d5020d74d2c38b
+14	2656	7977059948995884	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	33d7b0e6bf42c7f9
+80	2936	7977059951816932	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	adb66494f176643b
+34	2947	7977059951937054	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	ca7a61ef8785f4b4
+1	3073	7977059953210841	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	c424521ba95dfbf5
+3073	3171	7977059954233116	D:/Professional/Personal Projects/Fiverr/SpinWinEventApp/SpinWinEventApp/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/716r1q6q/obj/armeabi-v7a/libgame.so	3004f05e63360111
