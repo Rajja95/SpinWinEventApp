@@ -1,12 +1,14 @@
 using NUnit.Framework.Interfaces;
 using RUS95.SpinWinEventApp.Core;
 using RUS95.SpinWinEventApp.Data;
+using UnityEngine;
 
 namespace RUS95.SpinWinEventApp.Systems
 {
     public class SpinState : IGameState
     {
         private readonly GameFlowController _controller;
+        private Coroutine _delayRoutine;
 
         public SpinState(GameFlowController controller)
         {
@@ -26,12 +28,22 @@ namespace RUS95.SpinWinEventApp.Systems
         public void Exit()
         {
             _controller.GetSpinController().OnSpinCompleted -= HandleSpinCompleted;
+
+            if (_delayRoutine != null)
+            {
+                _controller.StopCoroutine(_delayRoutine);
+            }
         }
 
         private void HandleSpinCompleted(SpinResult result)
         {
             _controller.GetSessionData().SetResult(result);
-            _controller.SetState(new ResultState(_controller));
+
+            // Add delay before showing result
+            _delayRoutine = _controller.RunDelayed(_controller.ResultDelay, () =>
+            {
+                _controller.SetState(new ResultState(_controller));
+            });
         }
     }
 }

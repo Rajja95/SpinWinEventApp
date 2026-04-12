@@ -8,6 +8,7 @@ namespace RUS95.SpinWinEventApp.Systems
     {
         private readonly GameFlowController _controller;
         private readonly CsvDataSaver _dataSaver;
+        private Coroutine _delayRoutine;
 
         public SubmittingState(GameFlowController controller)
         {
@@ -31,9 +32,18 @@ namespace RUS95.SpinWinEventApp.Systems
                 Debug.LogError("Failed to save data: " + ex.Message);
             }
 
-            _controller.SetState(new ThankYouState(_controller));
+            _delayRoutine = _controller.RunDelayed(_controller.SubmitDelay, () =>
+            {
+                _controller.SetState(new ThankYouState(_controller));
+            });
         }
 
-        public void Exit() { }
+        public void Exit() 
+        {
+            if (_delayRoutine != null)
+            {
+                _controller.StopCoroutine(_delayRoutine);
+            }
+        }
     }
 }
