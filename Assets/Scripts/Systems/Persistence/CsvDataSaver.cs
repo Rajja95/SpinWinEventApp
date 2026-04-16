@@ -29,9 +29,13 @@ namespace RUS95.SpinWinEventApp.Systems.Persistence
         public void Save(GameSessionData data)
         {
             string line = ConvertToCsvLine(data);
-            File.AppendAllText(_filePath, line + "\n", Encoding.UTF8);
 
-            Debug.Log($"Data saved to: {_filePath}");
+#if UNITY_WEBGL
+            var saver = new WebGLFileSaver();
+            saver.Save(Header + "\n" + line);
+#else
+    File.AppendAllText(_internalPath, line + "\n", Encoding.UTF8);
+#endif
         }
 
         #endregion
