@@ -7,13 +7,13 @@ namespace RUS95.SpinWinEventApp.Systems
     public class SubmittingState : IGameState
     {
         private readonly GameFlowController _controller;
-        private readonly CsvDataSaver _dataSaver;
+        private readonly GameDataService _dataService;
         private Coroutine _delayRoutine;
 
         public SubmittingState(GameFlowController controller)
         {
             _controller = controller;
-            _dataSaver = new CsvDataSaver();
+            _dataService = new GameDataService();
         }
 
         public void Enter()
@@ -25,7 +25,7 @@ namespace RUS95.SpinWinEventApp.Systems
 
             try
             {
-                _dataSaver.Save(data);
+                _dataService.Save(data);
             }
             catch (System.Exception ex)
             {

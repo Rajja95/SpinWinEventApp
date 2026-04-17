@@ -30,12 +30,7 @@ namespace RUS95.SpinWinEventApp.Systems.Persistence
         {
             string line = ConvertToCsvLine(data);
 
-#if UNITY_WEBGL
-            var saver = new WebGLFileSaver();
-            saver.Save(Header + "\n" + line);
-#else
-    File.AppendAllText(_internalPath, line + "\n", Encoding.UTF8);
-#endif
+            File.AppendAllText(_filePath, line + "\n", Encoding.UTF8);
         }
 
         #endregion
