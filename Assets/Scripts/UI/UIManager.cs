@@ -24,6 +24,8 @@ namespace RUS95.SpinWinEventApp.UI
         [SerializeField] private Button _adminButton;
         [SerializeField] private TextMeshProUGUI _spinButtonText;
 
+        [SerializeField] private GameObject _wheelRoot;
+
         #endregion
 
         #region Result
@@ -142,6 +144,16 @@ namespace RUS95.SpinWinEventApp.UI
             });
         }
 
+        private void ShowWheel()
+        {
+            _wheelRoot.SetActive(true);
+        }
+
+        private void HideWheel()
+        {
+            _wheelRoot.SetActive(false);
+        }
+
         #endregion
 
         #region Screen Control
@@ -150,6 +162,7 @@ namespace RUS95.SpinWinEventApp.UI
         {
             HideAll();
             _idleScreen.SetActive(true);
+            ShowWheel();
         }
 
         public void ShowResultScreen(GameSessionData data)
@@ -196,6 +209,7 @@ namespace RUS95.SpinWinEventApp.UI
             _formScreen.SetActive(false);
             _adminScreen.SetActive(false);
             _thankYouScreen.SetActive(false);
+            HideWheel();
         }
 
         public void ShowAdminScreen()
