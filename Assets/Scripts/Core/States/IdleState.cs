@@ -20,6 +20,8 @@ namespace RUS95.SpinWinEventApp.Systems
             ui.ShowIdleScreen();
             ui.SetSpinButtonState(true, "TAP TO SPIN");
 
+            ui.SetAdminButtonState(true);
+
             _controller.GetInputHandler().enabled = true;
             _controller.GetSpinController().OnSpinStarted += HandleSpinStarted;
 
@@ -36,6 +38,7 @@ namespace RUS95.SpinWinEventApp.Systems
 
         private void HandleSpinStarted()
         {
+            _controller.GetUIManager().SetAdminButtonState(false);
             _controller.SetState(new SpinState(_controller));
         }
 

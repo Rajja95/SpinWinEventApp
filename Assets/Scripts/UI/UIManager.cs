@@ -303,6 +303,11 @@ namespace RUS95.SpinWinEventApp.UI
             _errorText.text = message;
         }
 
+        public void SetAdminButtonState(bool enabled)
+        {
+            _adminButton.interactable = enabled;
+        }
+
         #endregion
     }
 }
