@@ -13,6 +13,8 @@ namespace RUS95.SpinWinEventApp.Systems
 
         private ISpinInputReceiver _spinReceiver;
 
+        private bool _isInputEnabled = true;
+
         #endregion
 
         #region Public Methods
@@ -22,12 +24,19 @@ namespace RUS95.SpinWinEventApp.Systems
             _spinReceiver = spinReceiver;
         }
 
+        public void SetInputEnabled(bool enabled)
+        {
+            _isInputEnabled = enabled;
+        }
+
         #endregion
 
         #region Unity Callbacks
 
         private void Update()
         {
+            if (!_isInputEnabled) return;
+
             if (IsTapStarted(out Vector2 position))
             {
                 HandleTap(position);

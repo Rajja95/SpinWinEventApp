@@ -4569,20 +4569,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1017143427}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 210523068}
-        m_TargetAssemblyTypeName: RUS95.SpinWinEventApp.Systems.Spin.SpinController,
-          Assembly-CSharp
-        m_MethodName: StartSpin
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1017143427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5298,20 +5285,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1120178845}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 210523068}
-        m_TargetAssemblyTypeName: RUS95.SpinWinEventApp.Systems.Spin.SpinController,
-          Assembly-CSharp
-        m_MethodName: StartSpin
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1120178845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5522,20 +5496,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1184338623}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 210523068}
-        m_TargetAssemblyTypeName: RUS95.SpinWinEventApp.Systems.Spin.SpinController,
-          Assembly-CSharp
-        m_MethodName: StartSpin
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1184338623
 MonoBehaviour:
   m_ObjectHideFlags: 0

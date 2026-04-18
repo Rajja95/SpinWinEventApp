@@ -18,6 +18,7 @@ namespace RUS95.SpinWinEventApp.Systems
         public void Enter()
         {
             var ui = _controller.GetUIManager();
+            _controller.GetInputHandler().SetInputEnabled(false);
 
             ui.SetSpinButtonState(false, "Spinning...");
             _controller.GetInputHandler().enabled = false;
