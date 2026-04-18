@@ -15,11 +15,13 @@ namespace RUS95.SpinWinEventApp.UI
         [SerializeField] private GameObject _resultScreen;
         [SerializeField] private GameObject _formScreen;
         [SerializeField] private GameObject _thankYouScreen;
+        [SerializeField] private GameObject _adminScreen;
 
         #region Idle
 
         [Header("Idle Screen")]
         [SerializeField] private Button _spinButton;
+        [SerializeField] private Button _adminButton;
         [SerializeField] private TextMeshProUGUI _spinButtonText;
 
         #endregion
@@ -68,6 +70,20 @@ namespace RUS95.SpinWinEventApp.UI
 
         #endregion
 
+        #region Admin
+
+        [SerializeField] private GameObject _adminLoginGroup;   // password UI
+        [SerializeField] private GameObject _adminPanelGroup;   // download buttons etc
+        [SerializeField] private TMP_InputField _passwordInput;
+        [SerializeField] private TextMeshProUGUI _errorText;
+        [SerializeField] private Button _adminSubmitButton;
+        [SerializeField] private Button _adminCancelButton;
+        [SerializeField] private Button _adminDownloadButton;
+        [SerializeField] private Color _errorColor = Color.red;
+        [SerializeField] private Color _successColor = Color.green;
+
+        #endregion
+
         #endregion
 
         #region Events
@@ -77,6 +93,10 @@ namespace RUS95.SpinWinEventApp.UI
         public event Action<string, string> OnFormChanged;
         public event Action<string, string, string> OnSubmitClicked;
         public event Action OnSkipClicked;
+        public event Action OnAdminClicked;
+        public event Action<string> OnAdminSubmit;
+        public event Action OnAdminCancel;
+        public event Action OnAdminDownloadClicked;
 
         #endregion
 
@@ -100,6 +120,26 @@ namespace RUS95.SpinWinEventApp.UI
 
             _nameInput.onValueChanged.AddListener(_ => NotifyFormChanged());
             _emailInput.onValueChanged.AddListener(_ => NotifyFormChanged());
+
+            _adminSubmitButton.onClick.AddListener(() =>
+            {
+                OnAdminSubmit?.Invoke(_passwordInput.text);
+            });
+
+            _adminCancelButton.onClick.AddListener(() =>
+            {
+                OnAdminCancel?.Invoke();
+            });
+
+            _adminButton.onClick.AddListener(() =>
+            {
+                OnAdminClicked?.Invoke();
+            });
+
+            _adminDownloadButton.onClick.AddListener(() =>
+            {
+                OnAdminDownloadClicked?.Invoke();
+            });
         }
 
         #endregion
@@ -154,7 +194,27 @@ namespace RUS95.SpinWinEventApp.UI
             _idleScreen.SetActive(false);
             _resultScreen.SetActive(false);
             _formScreen.SetActive(false);
+            _adminScreen.SetActive(false);
             _thankYouScreen.SetActive(false);
+        }
+
+        public void ShowAdminScreen()
+        {
+            HideAll();
+            _adminScreen.SetActive(true);
+
+            _adminLoginGroup.SetActive(true);
+            _adminPanelGroup.SetActive(false);
+
+            _passwordInput.text = "";
+            _errorText.text = "";
+        }
+
+        public void ShowAdminPanel()
+        {
+            _errorText.text = "";
+            _adminLoginGroup.SetActive(false);
+            _adminPanelGroup.SetActive(true);
         }
 
         #endregion
@@ -211,6 +271,22 @@ namespace RUS95.SpinWinEventApp.UI
         public void SetCountdownText(string text)
         {
             _countdownText.text = text;
+        }
+
+        #endregion
+
+        #region Admin
+
+        public void ShowError(string message)
+        {
+            _errorText.color = _errorColor;
+            _errorText.text = message;
+        }
+
+        public void ShowSuccess(string message)
+        {
+            _errorText.color = _successColor;
+            _errorText.text = message;
         }
 
         #endregion

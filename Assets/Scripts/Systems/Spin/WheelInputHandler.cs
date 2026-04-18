@@ -77,8 +77,12 @@ namespace RUS95.SpinWinEventApp.Systems
                 Debug.Log("No hit detected on the wheel.");
                 return;
             }
+            else
+            {
+                Debug.Log("Hit detected on: " + hit.collider.name);
+            }
 
-            _spinReceiver?.OnSpinRequested();
+                _spinReceiver?.OnSpinRequested();
         }
 
         #endregion

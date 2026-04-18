@@ -1,15 +1,21 @@
+﻿using System;
+
 namespace RUS95.SpinWinEventApp.Data
 {
+    [Serializable]
     public class GameSessionData
     {
         #region Properties
 
-        public bool IsWin { get; private set; }
-        public SpinResult SpinResult { get; private set; }
+        public string Timestamp; // NEW (important)
 
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
+        public bool IsWin; // make public field (JSON safe)
+
+        public string ResultLabel; // store simple result instead of SpinResult
+
+        public string Name;
+        public string Email;
+        public string Phone;
 
         #endregion
 
@@ -17,14 +23,22 @@ namespace RUS95.SpinWinEventApp.Data
 
         public void SetResult(SpinResult result)
         {
-            SpinResult = result;
+            // Keep original logic
             IsWin = result.Segment.IsWin();
+
+            // Store safe string instead of complex object
+            ResultLabel = result.Segment.DisplayText;
+
+            // Set timestamp ONCE
+            Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         public void Reset()
         {
-            SpinResult = null;
+            Timestamp = string.Empty;
             IsWin = false;
+            ResultLabel = string.Empty;
+
             Name = string.Empty;
             Email = string.Empty;
             Phone = string.Empty;

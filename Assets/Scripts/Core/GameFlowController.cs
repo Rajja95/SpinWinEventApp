@@ -4,6 +4,7 @@ using RUS95.SpinWinEventApp.Systems.Spin;
 using RUS95.SpinWinEventApp.UI;
 using System.Collections;
 using UnityEngine;
+using RUS95.SpinWinEventApp.Systems.Persistence;
 
 namespace RUS95.SpinWinEventApp.Systems
 {
@@ -14,6 +15,7 @@ namespace RUS95.SpinWinEventApp.Systems
         [SerializeField] private SpinController _spinController;
         [SerializeField] private WheelTapInputHandler _inputHandler;
         [SerializeField] private UIManager _uiManager;
+        private GameDataService _dataService;
 
         [SerializeField] private float _resultDelay = 1.5f;
         [SerializeField] private float _submitDelay = 1.5f;
@@ -31,6 +33,7 @@ namespace RUS95.SpinWinEventApp.Systems
         private void Awake()
         {
             _sessionData = new GameSessionData();
+            _dataService = new GameDataService();
         }
 
         private void Start()
@@ -58,6 +61,11 @@ namespace RUS95.SpinWinEventApp.Systems
         public WheelTapInputHandler GetInputHandler() => _inputHandler;
         public UIManager GetUIManager() => _uiManager;
         public GameSessionData GetSessionData() => _sessionData;
+
+        public GameDataService GetDataService()
+        {
+            return _dataService;
+        }
 
         #endregion
 

@@ -1,15 +1,16 @@
-using System;
-using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
-using UnityEngine;
 using RUS95.SpinWinEventApp.Data;
+using System;
+using System.Collections.Generic;
+using UnityEditor.PackageManager;
+using UnityEngine;
 
 namespace RUS95.SpinWinEventApp.Systems.Persistence
 {
     public class PlayFabUploader
     {
-        public void Upload(GameSessionData data)
+        public void Upload(GameSessionData data, Action onSuccess, Action onError)
         {
             var request = new WriteClientPlayerEventRequest
             {
@@ -25,8 +26,16 @@ namespace RUS95.SpinWinEventApp.Systems.Persistence
             };
 
             PlayFabClientAPI.WritePlayerEvent(request,
-                result => Debug.Log("PlayFab Event Upload Success"),
-                error => Debug.LogError(error.GenerateErrorReport()));
+                result =>
+                {
+                    Debug.Log("PlayFab Event Upload Success");
+                    onSuccess?.Invoke();
+                },
+                error =>
+                {
+                    Debug.LogError(error.GenerateErrorReport());
+                    onError?.Invoke();
+                });
         }
     }
 }

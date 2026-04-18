@@ -1,4 +1,5 @@
 using RUS95.SpinWinEventApp.Core;
+using System.Diagnostics;
 using UnityEngine.InputSystem.LowLevel;
 
 namespace RUS95.SpinWinEventApp.Systems
@@ -17,20 +18,30 @@ namespace RUS95.SpinWinEventApp.Systems
             var ui = _controller.GetUIManager();
 
             ui.ShowIdleScreen();
-            ui.SetSpinButtonState(true, "SPIN");
+            ui.SetSpinButtonState(true, "TAP TO SPIN");
 
             _controller.GetInputHandler().enabled = true;
             _controller.GetSpinController().OnSpinStarted += HandleSpinStarted;
+
+            ui.OnAdminClicked += HandleAdminClicked;
         }
 
         public void Exit()
         {
+            var ui = _controller.GetUIManager();
             _controller.GetSpinController().OnSpinStarted -= HandleSpinStarted;
+
+            ui.OnAdminClicked -= HandleAdminClicked;
         }
 
         private void HandleSpinStarted()
         {
             _controller.SetState(new SpinState(_controller));
+        }
+
+        private void HandleAdminClicked()
+        {
+            _controller.SetState(new AdminAuthState(_controller));
         }
     }
 }
